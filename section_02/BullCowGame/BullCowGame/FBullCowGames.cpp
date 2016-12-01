@@ -37,8 +37,25 @@ bool FBullCowGame::IsGameWon() const{
     return false;
 }
 
-bool FBullCowGame::CheckGuessValidity(std::string) const{
-    return false;
+EGuessStatus FBullCowGame::CheckGuessValidity(std::string) const{
+    
+    //if the guess isn't an isogram
+    if(false) {
+        return EGuessStatus::Not_Isogram;
+    } else if(false) {
+        //if the guess isn't all lower case
+        //return error
+        return EGuessStatus::Not_Lower_Case;
+        
+    } else if (false){
+        //If the Guess length is wrong
+        //return error
+        return EGuessStatus::Wrong_Length;
+    } else {
+        //Otherwise
+        //return ok
+        return EGuessStatus::OK;
+    }
 }
 
 int32 FBullCowGame::GetHiddenWorldLength() const{

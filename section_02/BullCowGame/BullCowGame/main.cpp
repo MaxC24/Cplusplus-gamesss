@@ -8,7 +8,6 @@
 #include "FBullCowGames.hpp"
 
 using FText = std::string;
-using int32 = int;
 
 void PrintIntro();
 void PlayGame();
@@ -48,7 +47,7 @@ void PlayGame() {
     constexpr int32 TIMES = 5;
     for(int32 i = 0; i < TIMES; i++) {
         FText Guess = GetGuess(); //TODO make loop checking valid
-        
+        EGuessStatus status = BCGame.CheckGuessValidity(Guess);
         //submit valid guess to the game
         FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
         //print Nums of bulls and cows
