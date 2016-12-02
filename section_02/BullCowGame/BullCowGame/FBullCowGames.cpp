@@ -7,7 +7,8 @@
 //
 
 #include "FBullCowGames.hpp"
-#include <string>
+#include <map>
+#define TMap std::map
 
 
 FBullCowGame::FBullCowGame(){
@@ -40,7 +41,7 @@ bool FBullCowGame::IsGameWon() const{
 EGuessStatus FBullCowGame::CheckGuessValidity(std::string Guess) const{
     
     //if the guess isn't an isogram
-    if(false) {
+    if(!IsIsogram(Guess)) {
         return EGuessStatus::Not_Isogram;
     } else if(false) {
         //if the guess isn't all lower case
@@ -94,3 +95,23 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess) {
     }
     return BullCowCount;
 }
+
+bool FBullCowGame::IsIsogram(FString Word) const{
+    if(Word.length() <= 1) { return true; }
+    TMap<char, bool> LetterSeen;
+    
+    for(auto Letter: Word) {
+        Letter = tolower(Letter);
+        if(!LetterSeen[Letter]) {
+            LetterSeen[Letter] = true;
+        } else {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+
+
+

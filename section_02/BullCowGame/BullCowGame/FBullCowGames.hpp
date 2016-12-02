@@ -39,4 +39,6 @@ private:
     int32 MyMaxTries;
     FString MyHiddenWord;
     bool bGameWon;
+    //private function
+    bool IsIsogram(FString) const;
 };
