@@ -20,7 +20,7 @@ void FBullCowGame::Reset() {
     
     MyMaxTries = MAX_TRIES;
     MyHiddenWord = HIDDEN_WORD;
-    
+    bGameWon = false;
     MyCurrentTry = 1;
     return;
 }
@@ -34,10 +34,10 @@ int32 FBullCowGame::GetCurrentTry() const{
 }
 
 bool FBullCowGame::IsGameWon() const{
-    return false;
+    return bGameWon;
 }
 
-EGuessStatus FBullCowGame::CheckGuessValidity(std::string) const{
+EGuessStatus FBullCowGame::CheckGuessValidity(std::string Guess) const{
     
     //if the guess isn't an isogram
     if(false) {
@@ -47,7 +47,7 @@ EGuessStatus FBullCowGame::CheckGuessValidity(std::string) const{
         //return error
         return EGuessStatus::Not_Lower_Case;
         
-    } else if (false){
+    } else if (GetHiddenWorldLength() != Guess.length()){
         //If the Guess length is wrong
         //return error
         return EGuessStatus::Wrong_Length;
@@ -67,10 +67,10 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess) {
     MyCurrentTry++;
     //setup a return value
     FBullCowCount BullCowCount;
-    int32 HiddenWordLength = GetHiddenWorldLength();
-    for(int32 i = 0; i < HiddenWordLength; i++) {
+    int32 WordLength = GetHiddenWorldLength();
+    for(int32 i = 0; i < WordLength; i++) {
         //compare letters against the hidden word
-        for(int32 j = 0; j < HiddenWordLength; j++) {
+        for(int32 j = 0; j < WordLength; j++) {
         // if they match  then
             if(MyHiddenWord[i] == Guess[j]){
                 //if they are in the same place
@@ -86,6 +86,11 @@ FBullCowCount FBullCowGame::SubmitGuess(FString Guess) {
             }
 
         }
+    }
+    if(BullCowCount.Bulls == WordLength) {
+        bGameWon = true;
+    } else {
+        bGameWon = false;
     }
     return BullCowCount;
 }

@@ -12,7 +12,7 @@ using FText = std::string;
 void PrintIntro();
 void PlayGame();
 bool PlayAgain();
-FText GetGuess();
+FText GetValidGuess();
 FBullCowGame BCGame; //instantiate a new game.
 
 int32 main()
@@ -39,15 +39,14 @@ void PrintIntro() {
 void PlayGame() {
     
     BCGame.Reset();
-    int32 maxTries = BCGame.GetMaxTries();
+    int32 MaxTries = BCGame.GetMaxTries();
     
-    std::cout << maxTries << std::endl;
+    std::cout << "Max Number of tries : " << MaxTries << std::endl;
     
     
-    constexpr int32 TIMES = 5;
-    for(int32 i = 0; i < TIMES; i++) {
-        FText Guess = GetGuess(); //TODO make loop checking valid
-        EGuessStatus status = BCGame.CheckGuessValidity(Guess);
+    while(!BCGame.IsGameWon() && BCGame.GetCurrentTry() < MaxTries){
+        FText Guess = GetValidGuess();
+        
         //submit valid guess to the game
         FBullCowCount BullCowCount = BCGame.SubmitGuess(Guess);
         //print Nums of bulls and cows
@@ -59,15 +58,40 @@ void PlayGame() {
     //TODO summarize game
 }
 
-FText GetGuess() {
+FText GetValidGuess() {
     
-    int32 CurrentTry = BCGame.GetCurrentTry();
+    EGuessStatus status = EGuessStatus::Invalid_Status;
     FText Guess;
-    std::cout << "Try " << CurrentTry << ". Enter your guess: ";
-    std::getline(std::cin, Guess);
-    //repeat the guess to the user
+    do {
+        int32 CurrentTry = BCGame.GetCurrentTry();
+        
+        
+        std::cout << "Try " << CurrentTry << ". Enter your guess: ";
+        std::getline(std::cin, Guess);
+        
+        status = BCGame.CheckGuessValidity(Guess);
+        //repeat the guess to the user
+        
+        switch(status) {
+            case EGuessStatus::Not_Isogram :
+                std::cout << "Please the word should be an isogram" << std::endl;
+                break;
+            case EGuessStatus::Wrong_Length:
+                std::cout << "Wrong Length, Please enter a "<< BCGame.GetHiddenWorldLength() << " letter word" << std::endl;
+                break;
+            case EGuessStatus::Not_Lower_Case :
+                std::cout << "Word should be lower case" << std::endl;
+                break;
+            default :
+                break;
+        }
+        std::cout << std::endl;
+    } while(status != EGuessStatus::OK);
+    
     return Guess;
 }
+
+
 
 bool PlayAgain() {
     FText PlayerResponse;

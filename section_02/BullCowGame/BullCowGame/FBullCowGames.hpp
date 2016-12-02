@@ -14,7 +14,8 @@ enum class EGuessStatus {
     OK,
     Not_Isogram,
     Wrong_Length,
-    Not_Lower_Case
+    Not_Lower_Case,
+    Invalid_Status
 };
 
 class FBullCowGame {
@@ -24,12 +25,11 @@ public:
     int32 GetMaxTries() const;
     int32 GetCurrentTry() const;
     int32 GetHiddenWorldLength() const;
-    
     bool IsGameWon() const;
     EGuessStatus CheckGuessValidity(FString) const;
     
     
-    void Reset(); //TODO make a more rich return value.
+    void Reset();
     FBullCowCount SubmitGuess(FString);
     
     
@@ -38,4 +38,5 @@ private:
     int32 MyCurrentTry;
     int32 MyMaxTries;
     FString MyHiddenWord;
+    bool bGameWon;
 };
