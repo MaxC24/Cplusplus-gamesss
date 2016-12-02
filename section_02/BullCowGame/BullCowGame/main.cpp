@@ -10,6 +10,7 @@
 using FText = std::string;
 
 void PrintIntro();
+void PrintGameSummary();
 void PlayGame();
 bool PlayAgain();
 FText GetValidGuess();
@@ -36,6 +37,15 @@ void PrintIntro() {
     std::cout << " letter isogram I am thinking of?\n";
 }
 
+void PrintGameSummary() {
+    if(BCGame.IsGameWon()){
+        std::cout << "Congratulations You Won The Game!!!" << std::endl;
+    } else {
+        std::cout << "Sorry you didn't win, but should try another time" << std::endl;
+    }
+    std::cout << std::endl;
+}
+
 void PlayGame() {
     
     BCGame.Reset();
@@ -44,7 +54,7 @@ void PlayGame() {
     std::cout << "Max Number of tries : " << MaxTries << std::endl;
     
     
-    while(!BCGame.IsGameWon() && BCGame.GetCurrentTry() < MaxTries){
+    while(!BCGame.IsGameWon() && BCGame.GetCurrentTry() <= MaxTries){
         FText Guess = GetValidGuess();
         
         //submit valid guess to the game
@@ -56,6 +66,7 @@ void PlayGame() {
     }
     
     //TODO summarize game
+    PrintGameSummary();
 }
 
 FText GetValidGuess() {
