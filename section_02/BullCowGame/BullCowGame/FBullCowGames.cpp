@@ -43,7 +43,7 @@ EGuessStatus FBullCowGame::CheckGuessValidity(std::string Guess) const{
     //if the guess isn't an isogram
     if(!IsIsogram(Guess)) {
         return EGuessStatus::Not_Isogram;
-    } else if(false) {
+    } else if(!IsLowerCase(Guess)) {
         //if the guess isn't all lower case
         //return error
         return EGuessStatus::Not_Lower_Case;
@@ -109,6 +109,15 @@ bool FBullCowGame::IsIsogram(FString Word) const{
         }
     }
     
+    return true;
+}
+
+bool FBullCowGame::IsLowerCase(FString Word) const {
+    for(auto Letter : Word) {
+        if(!islower(Letter)){
+            return false;
+        }
+    }
     return true;
 }
 
