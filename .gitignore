@@ -6,10 +6,9 @@ Binaries
 DerivedDataCache
 Intermediate
 Saved
-BuildingEscape/Content/StarterContent
+StarterContent
 
 *.VC.db
 .DS_Store
 
 **/xcuserdata
-**/
