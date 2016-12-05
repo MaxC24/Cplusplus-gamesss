@@ -10,3 +10,6 @@ BuildingEscape/Content/StarterContent
 
 *.VC.db
 .DS_Store
+
+**/xcuserdata
+**/
