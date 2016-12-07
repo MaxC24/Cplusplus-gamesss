@@ -33,17 +33,36 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 
 	// Get Player view point this tick
     FVector PlayerViewPointLocation;
-    FRotator PlayerViewPointRotator;
+    FRotator PlayerViewPointRotation;
     GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
                  OUT PlayerViewPointLocation,
-                 OUT PlayerViewPointRotator
+                 OUT PlayerViewPointRotation
+    );
+    
+    //logout the location coordinates of the pawn:
+    
+    UE_LOG(LogTemp, Warning, TEXT("Location: %s and Rotation: %s"),
+           *PlayerViewPointLocation.ToString(),
+           *PlayerViewPointRotation.ToString()
+    );
+    
+//    FVector LineTraceEnd = PlayerViewPointLocation + FVector(0.f, 0.f, 100.f);
+    FVector LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector()*Reach);
+    
+    //Draw a red trace in the world to visualize
+    
+    DrawDebugLine(GetWorld(),
+                  PlayerViewPointLocation,
+                  LineTraceEnd,
+                  FColor(255, 0, 0),
+                  false,
+                  0.f,
+                  0.f,
+                  10.f
     );
     
     // Ray -cast out to reach distance
-    UE_LOG(LogTemp, Warning, TEXT("this is the location %s and this is the rotation %s"),
-           *PlayerViewPointLocation.ToString(),
-           *PlayerViewPointRotator.ToString()
-    );
+    
     // see what we hit
 }
 
