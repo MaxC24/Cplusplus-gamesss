@@ -46,7 +46,7 @@ void UGrabber::BeginPlay()
 }
 
 void UGrabber::Grab(){
-    UE_LOG(TempLog, Warning, TEXT("Grab Pressed"));
+    UE_LOG(LogTemp, Warning, TEXT("Grab Pressed"));
 }
 
 // Called every frame
@@ -58,14 +58,14 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
     FVector PlayerViewPointLocation;
     FRotator PlayerViewPointRotation;
     GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
-                 OUT PlayerViewPointLocation,
-                 OUT PlayerViewPointRotation
+         OUT PlayerViewPointLocation,
+         OUT PlayerViewPointRotation
     );
     
     
     UE_LOG(LogTemp, Warning, TEXT("Location: %s and Rotation: %s"),
-           *PlayerViewPointLocation.ToString(),
-           *PlayerViewPointRotation.ToString()
+       *PlayerViewPointLocation.ToString(),
+       *PlayerViewPointRotation.ToString()
     );
     
  
@@ -74,13 +74,13 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
     //Draw a red trace in the world to visualize
     
     DrawDebugLine(GetWorld(),
-                  PlayerViewPointLocation,
-                  LineTraceEnd,
-                  FColor(255, 0, 0),
-                  false,
-                  0.f,
-                  0.f,
-                  10.f
+      PlayerViewPointLocation,
+      LineTraceEnd,
+      FColor(255, 0, 0),
+      false,
+      0.f,
+      0.f,
+      10.f
     );
     
     //Setup query params
