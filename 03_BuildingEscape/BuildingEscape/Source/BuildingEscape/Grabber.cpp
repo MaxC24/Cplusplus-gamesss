@@ -57,60 +57,76 @@ void UGrabber::SetupInputComponent(){
 void UGrabber::Grab(){
     UE_LOG(LogTemp, Warning, TEXT("Grab Pressed"));
     
-    //Linetrace
-    GetFirstPhysicsBodyInReach();
-    
-    //find any object with physics body collision channel set
+    //Linetrace and find any object with physics body collision channel set
+    auto HitResult = GetFirstPhysicsBodyInReach();
+    auto ComponentToGrab = HitResult.GetComponent();
+    auto ActorHit = HitResult.GetActor();
     
     //If we hit something then attach a physics handle
-    //TODO attach physics handle
+    
+    if(ActorHit){
+        PhysicsHandle->GrabComponentAtLocationWithRotation(
+            ComponentToGrab,
+            NAME_None,
+            ComponentToGrab->GetOwner()->GetActorLocation(),
+            ComponentToGrab->GetOwner()->GetActorRotation()
+        );
+    }
 }
 
 void UGrabber::Release() {
     UE_LOG(LogTemp, Warning, TEXT("Grab Released"));
     
     //release Physics
+    
+    PhysicsHandle->ReleaseComponent();
 }
 
 // Called every frame
 void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
-    
-}
-
-const FHitResult UGrabber::GetFirstPhysicsBodyInReach(){
     
     // Get Player view point this tick
     FVector PlayerViewPointLocation;
     FRotator PlayerViewPointRotation;
     
     GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+        OUT PlayerViewPointLocation,
+        OUT PlayerViewPointRotation
+    );
+    
+    FVector LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector()*Reach);
+    
+    if(PhysicsHandle->GrabbedComponent) {
+        PhysicsHandle->SetTargetLocation(LineTraceEnd);
+    }
+    
+}
+
+const FHitResult UGrabber::GetFirstPhysicsBodyInReach(){
+    
+    FVector PlayerViewPointLocation;
+    FRotator PlayerViewPointRotation;
+    
+    GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
        OUT PlayerViewPointLocation,
        OUT PlayerViewPointRotation
-   );
-    
-    
-    //    UE_LOG(LogTemp, Warning, TEXT("Location: %s and Rotation: %s"),
-    //       *PlayerViewPointLocation.ToString(),
-    //       *PlayerViewPointRotation.ToString()
-    //    );
-    //
+    );
     
     FVector LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector()*Reach);
     
     //Draw a red trace in the world to visualize
     
-    DrawDebugLine(GetWorld(),
-      PlayerViewPointLocation,
-      LineTraceEnd,
-      FColor(255, 0, 0),
-      false,
-      0.f,
-      0.f,
-      10.f
-    );
+//    DrawDebugLine(GetWorld(),
+//      PlayerViewPointLocation,
+//      LineTraceEnd,
+//      FColor(255, 0, 0),
+//      false,
+//      0.f,
+//      0.f,
+//      10.f
+//    );
     
     //Setup query params
     
