@@ -39,4 +39,13 @@ private:
     
     //return hit for first physics body in reach
     const FHitResult GetFirstPhysicsBodyInReach();
+    
+    //REFACTORING
+    
+    FVector PlayerViewPointLocation;
+    FRotator PlayerViewPointRotation;
+    FVector LineTraceEnd;
+    
+    void GetInfo(OUT FVector* VL, OUT FRotator* RL, OUT FVector* LT);
+    
 };
