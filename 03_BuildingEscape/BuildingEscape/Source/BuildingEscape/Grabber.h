@@ -42,10 +42,9 @@ private:
     
     //REFACTORING
     
-    FVector PlayerViewPointLocation;
-    FRotator PlayerViewPointRotation;
-    FVector LineTraceEnd;
+    void GetInfo(OUT FVector* VL, OUT FVector* LT);
     
-    void GetInfo(OUT FVector* VL, OUT FRotator* RL, OUT FVector* LT);
+    FVector GetPlayerVPL();
+    FVector GetPlayerVPLEnd();
     
 };
