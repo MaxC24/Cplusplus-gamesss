@@ -12,7 +12,7 @@ UOpenDoor::UOpenDoor()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+    
 }
 
 
@@ -25,8 +25,8 @@ void UOpenDoor::BeginPlay()
 }
 
 void UOpenDoor::OpenDoor() {
-    
-    Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f));
+    OnOpenRequest.Broadcast();
+    //Owner->SetActorRotation(FRotator(0.f, OpenAngle, 0.f));
     
 }
 
