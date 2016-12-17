@@ -55,6 +55,7 @@ void UGrabber::Grab(){
     auto ActorHit = HitResult.GetActor();
     
     //If we hit something then attach a physics handle
+    if(!PhysicsHandle) return;
     if(ActorHit){
         PhysicsHandle->GrabComponentAtLocationWithRotation(
             ComponentToGrab,
@@ -67,6 +68,7 @@ void UGrabber::Grab(){
 
 void UGrabber::Release() {
     //release Physics
+    if(!PhysicsHandle) return;
     PhysicsHandle->ReleaseComponent();
 }
 
@@ -76,7 +78,7 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
     
     // Get Player view point this tick
-    
+    if(!PhysicsHandle) return;
     if(PhysicsHandle->GrabbedComponent) { PhysicsHandle->SetTargetLocation(GetPlayerVPLEnd()); }
     
 }
